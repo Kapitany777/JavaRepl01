@@ -41,7 +41,7 @@ public class Main {
 
 		shutdown();
 	}
-
+	
 	private static Map<String, Command> initCommands() {
 		Map<String, Command> commands = new HashMap<>();
 
@@ -56,11 +56,14 @@ public class Main {
 			System.out.println(quotes.getRandomQuote());
 			return true;
 		});
-
-		commands.put("echo", (args) -> {
+		
+		Command echoCommand = (args) -> {
 			System.out.println(args);
 			return true;
-		});
+		};
+
+		commands.put("echo", echoCommand);
+		commands.put("print", echoCommand);
 
 		commands.put("version", (args) -> {
 			System.out.println("Verzió: " + VERSION);
@@ -72,10 +75,14 @@ public class Main {
 			return true;
 		});
 
-		commands.put("exit", (args) -> {
+		Command exitCommand = (args) -> {
 			System.out.println("Kilépés folyamatban...");
 			return false;
-		});
+		};		
+		
+		commands.put("exit", exitCommand);
+		commands.put("q", exitCommand);
+		commands.put("quit", exitCommand);
 
 		return commands;
 	}
