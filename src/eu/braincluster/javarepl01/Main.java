@@ -14,7 +14,7 @@ public class Main {
 		System.out.println("Készítette: Kapitany & ChatGPT");
 
 		var scanner = new Scanner(System.in);
-
+		
 		boolean running = true;
 
 		Map<String, Command> commands = initCommands();
@@ -22,8 +22,6 @@ public class Main {
 		while (running) {
 			System.out.print("> ");
 			String command = scanner.nextLine().toLowerCase();
-
-			// System.out.println(command);
 
 			var action = commands.get(command);
 
@@ -42,9 +40,16 @@ public class Main {
 
 	private static Map<String, Command> initCommands() {
 		Map<String, Command> commands = new HashMap<>();
+		
+		var quotes = new Quotes();
 
 		commands.put("date", () -> {
 			System.out.println(DateTimeHelper.getCurrentDate());
+			return true;
+		});
+		
+		commands.put("quote", () -> {
+			System.out.println(quotes.getRandomQuote());
 			return true;
 		});
 
@@ -69,6 +74,7 @@ public class Main {
 	private static void printHelp() {
 		System.out.println("Elérhető parancsok:");
 		System.out.println(" - date    : aktuális dátum");
+		System.out.println(" - quote   : véletlenszerű idézet megjelenítése");
 		System.out.println(" - version : program verziójának megjelenítése");
 		System.out.println(" - help    : súgó megjelenítése");
 		System.out.println(" - exit    : kilépés a programból");
