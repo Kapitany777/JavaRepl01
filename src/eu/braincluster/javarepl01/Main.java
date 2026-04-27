@@ -7,7 +7,7 @@ import java.util.Scanner;
 public class Main {
 
 	private static final String VERSION = "V1.0.1";
-	
+
 	public static void main(String[] args) {
 
 		System.out.println("Java REPL program");
@@ -43,11 +43,16 @@ public class Main {
 	private static Map<String, Command> initCommands() {
 		Map<String, Command> commands = new HashMap<>();
 
+		commands.put("date", () -> {
+			System.out.println(DateTimeHelper.getCurrentDate());
+			return true;
+		});
+
 		commands.put("version", () -> {
 			System.out.println("Verzió: " + VERSION);
 			return true;
 		});
-		
+
 		commands.put("help", () -> {
 			printHelp();
 			return true;
@@ -57,12 +62,13 @@ public class Main {
 			System.out.println("Kilépés folyamatban...");
 			return false;
 		});
-		
+
 		return commands;
 	}
 
 	private static void printHelp() {
 		System.out.println("Elérhető parancsok:");
+		System.out.println(" - date    : aktuális dátum");
 		System.out.println(" - version : program verziójának megjelenítése");
 		System.out.println(" - help    : súgó megjelenítése");
 		System.out.println(" - exit    : kilépés a programból");
