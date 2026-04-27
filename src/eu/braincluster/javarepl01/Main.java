@@ -14,19 +14,23 @@ public class Main {
 		System.out.println("Készítette: Kapitany & ChatGPT");
 
 		var scanner = new Scanner(System.in);
-		
+
 		boolean running = true;
 
 		Map<String, Command> commands = initCommands();
 
 		while (running) {
 			System.out.print("> ");
-			String command = scanner.nextLine().toLowerCase();
+			String line = scanner.nextLine();
+
+			var parts = line.split(" ", 2);
+			String command = parts[0].toLowerCase();
+			String commandArgs = parts.length > 1 ? parts[1] : "";
 
 			var action = commands.get(command);
 
 			if (action != null) {
-				running = action.execute();
+				running = action.execute(commandArgs);
 			}
 			else {
 				System.out.println("Hibás parancs!");
@@ -40,30 +44,35 @@ public class Main {
 
 	private static Map<String, Command> initCommands() {
 		Map<String, Command> commands = new HashMap<>();
-		
+
 		var quotes = new Quotes();
 
-		commands.put("date", () -> {
+		commands.put("date", (args) -> {
 			System.out.println(DateTimeHelper.getCurrentDate());
 			return true;
 		});
-		
-		commands.put("quote", () -> {
+
+		commands.put("quote", (args) -> {
 			System.out.println(quotes.getRandomQuote());
 			return true;
 		});
 
-		commands.put("version", () -> {
+		commands.put("echo", (args) -> {
+			System.out.println(args);
+			return true;
+		});
+
+		commands.put("version", (args) -> {
 			System.out.println("Verzió: " + VERSION);
 			return true;
 		});
 
-		commands.put("help", () -> {
+		commands.put("help", (args) -> {
 			printHelp();
 			return true;
 		});
 
-		commands.put("exit", () -> {
+		commands.put("exit", (args) -> {
 			System.out.println("Kilépés folyamatban...");
 			return false;
 		});
@@ -75,6 +84,7 @@ public class Main {
 		System.out.println("Elérhető parancsok:");
 		System.out.println(" - date    : aktuális dátum");
 		System.out.println(" - quote   : véletlenszerű idézet megjelenítése");
+		System.out.println(" - echo    : szöveg kiírása");
 		System.out.println(" - version : program verziójának megjelenítése");
 		System.out.println(" - help    : súgó megjelenítése");
 		System.out.println(" - exit    : kilépés a programból");

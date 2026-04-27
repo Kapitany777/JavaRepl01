@@ -1,5 +1,5 @@
 package eu.braincluster.javarepl01;
 
 public interface Command {
-	boolean execute();
+	boolean execute(String args);
 }
